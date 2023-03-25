@@ -1,34 +1,42 @@
+import React, { Component } from 'react';
 import './App.css';
 
-function Equipe (props) {
-  return(
-    <div>
-      <Sobre username={props.nome} cargo={props.cargo} idade={props.idade} />
-      <Social fb={props.facebook} lk={props.linkedin} yt={props.youtube} />
-    </div>
-  );
+
+class Equipe extends Component{
+  render(){
+    return(
+      <div>
+        <Sobre username={this.props.nome} cargo={this.props.cargo} idade={this.props.idade} />
+        <Social fb={this.props.facebook} lk={this.props.linkedin} yt={this.props.youtube} />
+      </div>
+    );
+  }
 }
 
-function Sobre (props) {
-  return (
-    <div>
-      <p>Olá sou o(a) {props.username}</p>
-      <p>Cargo: {props.cargo}</p>
-      <p>Idade: {props.idade} anos</p>
-    </div>
-  )
+class Sobre extends Component{
+  render(){
+    return (
+      <div>
+        <p>Olá sou o(a) {this.props.username}</p>
+        <p>Cargo: {this.props.cargo}</p>
+        <p>Idade: {this.props.idade} anos</p>
+      </div>
+    );
+  }
 }
 
-function Social (props) {
-  return (
-    <div>
-      <a href={props.fb}>Facebook</a>
-      <a href={props.lk}>Linkedin</a>
-      <a href={props.yt}>Youtube</a>
+class Social extends Component{
+  render(){
+    return(
+      <div>
+        <a href={this.props.fb}>Facebook</a>
+        <a href={this.props.lk}>Linkedin</a>
+        <a href={this.props.yt}>Youtube</a>
     </div>
-
-  );
+    );
+  }
 }
+
 
 function App() {
   return (
