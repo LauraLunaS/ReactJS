@@ -2,49 +2,51 @@ import React, { Component } from 'react';
 import './App.css';
 
 
-class Equipe extends Component{
-  render(){
-    return(
-      <div>
-        <Sobre username={this.props.nome} cargo={this.props.cargo} idade={this.props.idade} />
-        <Social fb={this.props.facebook} lk={this.props.linkedin} yt={this.props.youtube} />
-      </div>
-    );
-  }
-}
+class App extends Component{
 
-class Sobre extends Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      nome: "Laura",
+      contador: 0,
+    };
+
+    this.aumentar = this.aumentar.bind(this);
+    this.diminuir = this.diminuir.bind(this);
+  }
+
+  diminuir(){
+    let state = this.state;
+
+    if(state.contador === 0){
+      alert('Opa, o contador chegou no 0');
+      return
+    }
+    state.contador -= 1;
+    state.nome = 'Leticia';
+    this.setState(state);
+  }
+
+  aumentar(){
+    let state = this.state;
+    state.contador += 1;
+    this.setState(state);
+  }
+
   render(){
     return (
       <div>
-        <p>Olá sou o(a) {this.props.username}</p>
-        <p>Cargo: {this.props.cargo}</p>
-        <p>Idade: {this.props.idade} anos</p>
+        <h5>Contador</h5>
+        {this.props.nome}
+
+        <h5>
+          <button onClick={this.diminuir}>-</button>
+          {this.state.contador}
+          <button onClick={this.aumentar}>+</button>
+        </h5>
       </div>
     );
   }
-}
-
-class Social extends Component{
-  render(){
-    return(
-      <div>
-        <a href={this.props.fb}>Facebook</a>
-        <a href={this.props.lk}>Linkedin</a>
-        <a href={this.props.yt}>Youtube</a>
-    </div>
-    );
-  }
-}
-
-
-function App() {
-  return (
-    <div className="App">
-      <h1>Conheça nossa equipe:</h1>
-        <Equipe nome="Laura" cargo="Programadora" idade="18" facebook="https://pt-br.facebook.com/" linkedin="https://br.linkedin.com/" youtube="https://www.youtube.com/"/>
-    </div>
-  );
-}
+}    
 
 export default App;
