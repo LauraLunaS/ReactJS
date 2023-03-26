@@ -7,6 +7,7 @@ function App() {
     'Pagar a conta de luz',
     'Estudar React Hooks'
   ]);
+  
   const [input, setInput] = useState('');
 
   useEffect(() => {
