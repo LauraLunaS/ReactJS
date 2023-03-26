@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 
 
 function App() {
@@ -22,10 +22,10 @@ function App() {
   }, [tarefas])
 
 
-  function handleAdd(){
+  const handleAdd =  useCallback(() => {
     setTarefas([...tarefas, input])
     setInput('');
-  }
+  }, [input, tarefas]);
 
   const totaltarefas = useMemo(() => tarefas.length, [tarefas]);
 
