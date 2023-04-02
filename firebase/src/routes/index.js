@@ -2,9 +2,9 @@ import { Routes, Route} from 'react-router-dom'
 
 import Home from '../pages/Home';
 import Register from '../pages/Register';
-import Admin from '../pages/Admin'
+import Admin from '../pages/Admin';
 
-import Private from './Private'
+import Private from './Private';
 
 function RoutesApp(){
   return(
