@@ -4,9 +4,18 @@ import { Link } from 'react-router-dom'
 
 
 export default function SignUp(){
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    
   
+    function handleSubmit(e){
+      e.preventDefault();
+
+      if(name !== ''&& email !== ''&& password!==''){
+        alert('Fazer cadastro')
+      }
+    }
   
     return(
       <div className="container-center">
@@ -15,7 +24,7 @@ export default function SignUp(){
             <img src={logo} alt="Logo do sistema de chamados" />
           </div>
   
-          <form>
+          <form onSubmit={handleSubmit}>
             <h1>Nova conta</h1>
             <input 
               type="text" 
