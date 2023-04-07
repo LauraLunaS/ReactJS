@@ -1,19 +1,20 @@
 import { Routes, Route } from 'react-router-dom'
 
-import SignIn from '../pages/SignIn'
-import SignUp from '../pages/SignUp'
+import SignIn from '../pages/SignIn';
+import SignUp from '../pages/SignUp';
+import Dashboard from '../Dashboard';
 
-import Dashboard from '../Dashboard'
+import Private from './Private'
 
-function RoutesApp() {
-    return(
-        <Routes>
-            <Route path="/" element={ <SignIn/> } />
-            <Route path="/register" element={ <SignUp/> } />
+function RoutesApp(){
+  return(
+    <Routes>
+      <Route path="/" element={ <SignIn/> } />
+      <Route path="/register" element={ <SignUp/> } />
 
-            <Route path="/dashboard" element={ <Dashboard/> } />
-        </Routes>
-    )
+      <Route path="/dashboard" element={ <Private><Dashboard/></Private> } />
+    </Routes>
+  )
 }
 
 export default RoutesApp;
