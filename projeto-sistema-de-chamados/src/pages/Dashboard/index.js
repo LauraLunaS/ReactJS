@@ -1,7 +1,7 @@
 import { useContext } from 'react'
-import {AuthContext} from '../contexts/auth'
+import {AuthContext} from '../../contexts/auth'
 
-import Header from '../components/Header';
+import Header from '../../components/Header';
 
 import Title from '../../components/Title'
 import { FiPlus, FiMessageSquare, FiSearch, FiEdit2 } from 'react-icons/fi'
