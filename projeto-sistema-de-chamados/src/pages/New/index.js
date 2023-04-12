@@ -74,6 +74,30 @@ export default function New(){
   }
 
 
+  async function handleRegister(e){
+    e.preventDefault();
+
+    await addDoc(collection(db, "chamados"), {
+      created: new Date(),
+      cliente: customers[customerSelected].nomeFantasia,
+      clienteId: customers[customerSelected].id,
+      assunto: assunto,
+      complemento: complemento,
+      status: status,
+      userId: user.uid,
+    })
+    .then(() => {
+      alert("Chamado registrado!")
+      setComplemento('')
+      setCustomerSelected(0)
+    })
+    .catch((error) => {
+      alert("Ops erro ao registrar, tente mais tarde!")
+      console.log(error);
+    })
+  }
+
+
 
   return(
     <div>
@@ -85,7 +109,7 @@ export default function New(){
         </Title>
 
         <div className="container">
-          <form className="form-profile">
+          <form className="form-profile" onSubmit={handleRegister}>
 
             <label>Clientes</label>
             {
