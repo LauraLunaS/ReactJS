@@ -14,6 +14,8 @@ import { Link } from 'react-router-dom'
 
 import './dashboard.css'
 
+const listRef = collection(db, "chamados")
+
 
 export default function Dashboard(){
   const { logout } = useContext(AuthContext);
@@ -21,6 +23,9 @@ export default function Dashboard(){
   const [chamados, setChamados] = useState([])
   const [loading, setLoading] = useState(true);
   const [isEmpty, setIsEmpty] = useState(false)
+  const [lastDocs, setLastDocs] = useState()
+  const [loadingMore, setLoadingMore] = useState(false);
+
 
   useEffect(() => {
     async function loadChamados(){
@@ -61,16 +66,31 @@ export default function Dashboard(){
         })
       })
 
+      const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1] 
+
       setChamados(chamados => [...chamados, ...lista])
+      setLastDocs(lastDoc);
 
 
     }else{
       setIsEmpty(true);
     }
     
-
+    setLoadingMore(false);
 
   }
+
+  async function handleMore(){
+    setLoadingMore(true);
+
+    const q = query(listRef, orderBy('created', 'desc'), startAfter(lastDocs),  limit(5));
+    const querySnapshot = await getDocs(q);
+    await updateState(querySnapshot);
+
+  }
+
+
+
 
   if(loading){
   return(
@@ -149,7 +169,12 @@ export default function Dashboard(){
                         )
                       })}
                     </tbody>
-                  </table>              
+                  </table> 
+
+                  {loadingMore && <h3>Buscando mais chamados...</h3>}    
+                  {!loadingMore && !isEmpty && <button className="btn-more" onClick={handleMore}>Buscar mais</button>  }  
+
+
                 </>
               )}
             </>
