@@ -152,7 +152,7 @@ export default function Dashboard(){
                             <td data-label="Cliente">{item.cliente}</td>
                             <td data-label="Assunto">{item.assunto}</td>
                             <td data-label="Status">
-                              <span className="badge" style={{ backgroundColor: '#999' }}>
+                              <span className="badge" style={{ backgroundColor: item.status === 'Aberto' ? '#5cb85' : '#999' }}>
                                 {item.status}
                               </span>
                             </td>
@@ -161,9 +161,9 @@ export default function Dashboard(){
                               <button className="action" style={{ backgroundColor: '#3583f6' }}>
                                 <FiSearch color='#FFF' size={17}/>
                               </button>
-                              <button className="action" style={{ backgroundColor: '#f6a935' }}>
+                              <Link to={`/new/'${item.id}`} className="action" style={{ backgroundColor: '#f6a935' }}>
                                 <FiEdit2 color='#FFF' size={17}/>
-                              </button>
+                              </Link>
                             </td>
                           </tr>
                         )

@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import Header from '../../components/Header'
 import Title from '../../components/Title'
 import { FiPlusCircle} from 'react-icons/fi'
 
 import {AuthContext} from '../../contexts/auth'
 import { db } from '../../services/firebaseConnection'
-import {collection, getDocs, getDoc, doc} from 'firebase/firestore'
+import {collection, getDocs, getDoc, doc, addDoc, updateDoc} from 'firebase/firestore'
+
+import { useParams, useNavigate } from 'react-router-dom'
 
 import './new.css';
 
@@ -15,6 +17,8 @@ const listRef = collection(db, "customers");
 
 export default function New(){
   const { user } = useContext(AuthContext);
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const [customers, setCustomers] = useState([])
   const [loadCustomer, setLoadCustomer] = useState(true);
@@ -23,6 +27,8 @@ export default function New(){
   const [complemento, setComplemento] = useState('')
   const [assunto, setAssunto] = useState('Suporte')
   const [status, setStatus] = useState('Aberto')
+  const [idCustomer, setIdCustomer] = useState(false)
+  
 
 
   useEffect(() => {
@@ -48,6 +54,10 @@ export default function New(){
         setCustomers(lista);
         setLoadCustomer(false);
 
+        if(id){
+          loadId(lista);
+        }
+
       })
       .catch((error) => {
         console.log("ERRRO AO BUSCAR OS CLIENTES", error)
@@ -57,7 +67,28 @@ export default function New(){
     }
 
     loadCustomers();    
-  }, [])
+  }, [id])
+
+
+  async function loadId(lista){
+    const docRef = doc(db, "chamados", id);
+    await getDoc(docRef)
+    .then((snapshot) => {
+      setAssunto(snapshot.data().assunto)
+      setStatus(snapshot.data().status)
+      setComplemento(snapshot.data().complemento);
+
+
+      let index = lista.findIndex(item => item.id === snapshot.data().clienteId)
+      setCustomerSelected(index);
+      setIdCustomer(true);
+
+    })
+    .catch((error) => {
+      console.log(error);
+      setIdCustomer(false);
+    })
+  }
 
 
   function handleOptionChange(e){
@@ -77,7 +108,10 @@ export default function New(){
   async function handleRegister(e){
     e.preventDefault();
 
-    await addDoc(collection(db, "chamados"), {
+    if(idCustomer){
+    
+    const docRef = doc(db, "chamados", id)
+    await updateDoc(docRef,  {
       created: new Date(),
       cliente: customers[customerSelected].nomeFantasia,
       clienteId: customers[customerSelected].id,
@@ -87,16 +121,39 @@ export default function New(){
       userId: user.uid,
     })
     .then(() => {
-      alert("Chamado registrado!")
+      alert("Chamado atualizado com sucesso!")
       setComplemento('')
       setCustomerSelected(0)
+      navigate('/dashboard')
     })
     .catch((error) => {
-      alert("Ops erro ao registrar, tente mais tarde!")
+      alert("Ops erro ao atualizar esse chamado!")
       console.log(error);
     })
+
+    return;
   }
 
+
+  await addDoc(collection(db, "chamados"), {
+    created: new Date(),
+    cliente: customers[customerSelected].nomeFantasia,
+    clienteId: customers[customerSelected].id,
+    assunto: assunto,
+    complemento: complemento,
+    status: status,
+    userId: user.uid,
+  })
+  .then(() => {
+    alert("Chamado registrado!")
+    setComplemento('')
+    setCustomerSelected(0)
+  })
+  .catch((error) => {
+    toast.error("Ops erro ao registrar, tente mais tarde!")
+    console.log(error);
+  })
+}
 
 
   return(
@@ -104,7 +161,7 @@ export default function New(){
       <Header/>
 
       <div className="content">
-        <Title name="Novo chamado">
+        <Title name={id ? "Editando chamado" : "Novo chamado"}>
           <FiPlusCircle size={25}/>
         </Title>
 
