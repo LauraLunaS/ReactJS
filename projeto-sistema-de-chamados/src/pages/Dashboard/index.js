@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import {AuthContext} from '../../contexts/auth'
 
 import Header from '../../components/Header';
+import Modal from '../../components/Modal';
 
 import Title from '../../components/Title'
 import { FiPlus, FiMessageSquare, FiSearch, FiEdit2 } from 'react-icons/fi'
@@ -25,6 +26,10 @@ export default function Dashboard(){
   const [isEmpty, setIsEmpty] = useState(false)
   const [lastDocs, setLastDocs] = useState()
   const [loadingMore, setLoadingMore] = useState(false);
+
+  
+  const [showPostModal, setShowPostModal] = useState(false);
+  const [detail, setDetail] = useState()
 
 
   useEffect(() => {
@@ -89,6 +94,10 @@ export default function Dashboard(){
 
   }
 
+  function toggleModal(item){
+    setShowPostModal(!showPostModal)
+    setDetail(item)
+  }
 
 
 
@@ -158,7 +167,8 @@ export default function Dashboard(){
                             </td>
                             <td data-label="Cadastrado">{item.createdFormat}</td>
                             <td data-label="#">
-                              <button className="action" style={{ backgroundColor: '#3583f6' }}>
+                              <button className="action" style={{ backgroundColor: '#3583f6' }} onClick={ () => toggl
+                              (item)}>
                                 <FiSearch color='#FFF' size={17}/>
                               </button>
                               <Link to={`/new/'${item.id}`} className="action" style={{ backgroundColor: '#f6a935' }}>
@@ -180,6 +190,13 @@ export default function Dashboard(){
             </>
     
           </div>
+
+          {showPostModal && (
+          <Modal
+          conteudo={detail}
+          close={ () => setShowPostModal(!showPostModal) }
+        />
+      )}
         
         </div>
       )
