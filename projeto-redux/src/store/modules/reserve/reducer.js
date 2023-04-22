@@ -27,7 +27,25 @@ export default function reserve(state = [], action ){
         }
 
       });
-    default:
+
+      case 'UPDATE_RESERVE': {
+        if(action.amount <= 0){
+          return state;
+        }
+  
+        return produce(state, draft => {
+          const tripIndex = draft.findIndex(trip => trip.id === action.id);
+  
+  
+          if(tripIndex >= 0){
+            draft[tripIndex].amount = Number(action.amount);
+          }
+  
+        });
+  
+      }
+      
+      default:
       return state;
   }
 }
