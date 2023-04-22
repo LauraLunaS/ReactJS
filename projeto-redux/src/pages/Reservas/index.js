@@ -9,7 +9,7 @@ export default function Reservas() {
  const reserves = useSelector(state => state.reserve);
 
  function handleRemove(id){
-  dispatch(removeReserve(id))
+  dispatch(removeReserve(id));
  }
 
  function decrementAmount(trip){
@@ -31,16 +31,23 @@ export default function Reservas() {
         alt={reserve.title}
         />
         <strong>{reserve.title}</strong>
-        
+
         <div id="amount">
-            <button type="button" onClick={()=> decrementAmount(reserve) }>
-              <MdRemoveCircle size={25} color="#191919" />
-            </button>
-            <input type="text" readOnly value={reserve.amount} />
-            <button type="button" onClick={()=> incrementAmount(reserve) }>
-              <MdAddCircle size={25} color="#191919" />
-            </button>
+          <button type="button" onClick={()=> decrementAmount(reserve) }>
+            <MdRemoveCircle size={25} color="#191919" />
+          </button>
+          <input type="text" readOnly value={reserve.amount} />
+          <button type="button" onClick={()=> incrementAmount(reserve) }>
+            <MdAddCircle size={25} color="#191919" />
+          </button>
         </div>
+
+        <button
+        type="button"
+        onClick={()=> handleRemove(reserve.id) }
+        >
+        <MdDelete size={20} color="#191919" />
+      </button>
     </div>
     ))}
 
