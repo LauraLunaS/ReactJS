@@ -1,3 +1,6 @@
+Repositório criado para o curso de ReactJs do zero ao avançado da Udemy pelo professor Matheus Fraga 
+Esse repositório contém quatro projetos usando conhecimentos básicos e avançados em React
+
 Getting Started with Create React App
 This project was bootstrapped with Create React App.
 
